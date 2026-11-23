@@ -53,6 +53,20 @@ npx --yes hyperframes tts --list   # voices
 - Kokoro gives no word timestamps; for word-by-word captions run the `transcriber` (Whisper) on the result, or derive timing from the script.
 - The registry's `tts_selector` does not list Kokoro (shows TTS 0/N); tell the user Kokoro is available via the HyperFrames CLI path and log it as the TTS decision.
 
+### Voice cast (binding — user's standing choice, see `voices.json`)
+
+| ID | Kokoro voice | Speed | Use |
+|----|--------------|-------|-----|
+| **M1** | `am_michael` | `0.93` | Main narrator. Default for ALL videos. |
+| **F1** | `af_heart` | `0.95` | Only when a female voice is needed (second speaker, female role). |
+
+```bash
+npx --yes hyperframes tts "..." --voice am_michael --speed 0.93 -o vo_m1.wav   # M1
+npx --yes hyperframes tts "..." --voice af_heart   --speed 0.95 -o vo_f1.wav   # F1
+```
+
+Do not re-ask the user about voice casting at proposal time: state "M1 (am_michael, 0.93)" (and F1 if used) and log it as the `voice_selection` decision with `rejected_because: "user standing voice cast"` for alternatives. Ask only if they request a different voice or a language Kokoro lacks (e.g. Russian).
+
 ## 4. Extra entry points
 
 OpenMontage ships slash-command recipes in `$OM_DIR/.claude/commands/`: `ink-art` (self-drawing ink doodle animation), `animated-drawing` (animate a supplied drawing), `reel`, `backlot` (live storyboard board: `python -m backlot open`). Read the matching file when the user asks for that kind of output.

@@ -1,0 +1,8 @@
+{
+  "provider": "kokoro",
+  "default": "M1",
+  "voices": {
+    "M1": { "voice": "am_michael", "speed": 0.93, "gender": "male",   "role": "main narrator — used for every video by default" },
+    "F1": { "voice": "af_heart",   "speed": 0.95, "gender": "female", "role": "female voice — only when a female voice is needed" }
+  }
+}
