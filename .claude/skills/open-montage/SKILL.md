@@ -38,6 +38,21 @@ cd "$OM_DIR" && .venv/bin/python -c "from tools.tool_registry import registry; i
 
 Without API keys only local tools work (FFmpeg, Piper TTS, Remotion, HyperFrames). Keys go in `$OM_DIR/.env` (all optional): `FAL_KEY`, `PEXELS_API_KEY`, `PIXABAY_API_KEY`, `UNSPLASH_ACCESS_KEY`, `ELEVENLABS_API_KEY`, `OPENAI_API_KEY`, `SUNO_API_KEY`, `KLING_API_KEY`, etc. — see `$OM_DIR/docs/PROVIDERS.md`. Never ask the user to paste keys into chat.
 
+## 3b. Local voiceover — Kokoro-82M (https://github.com/hexgrad/kokoro, Apache-2.0)
+
+Free offline TTS, installed by `ensure_installed.sh`. Always export the venv python so the HyperFrames CLI finds `kokoro-onnx`:
+
+```bash
+export HYPERFRAMES_PYTHON="$OM_DIR/.venv/bin/python"
+npx --yes hyperframes tts "Text here" --voice am_michael -o "$OM_DIR/projects/<id>/assets/audio/vo.wav"
+npx --yes hyperframes tts --list   # voices
+```
+
+- Languages: English (US/GB), Spanish, French, Italian, Hindi, Portuguese (BR), Japanese, Chinese. **No Russian** — for Russian narration use a cloud TTS or Piper.
+- Good narrator voices: `am_michael`, `am_fenrir`, `am_adam` (US male), `bm_george` (UK male), `af_heart` (US female).
+- Kokoro gives no word timestamps; for word-by-word captions run the `transcriber` (Whisper) on the result, or derive timing from the script.
+- The registry's `tts_selector` does not list Kokoro (shows TTS 0/N); tell the user Kokoro is available via the HyperFrames CLI path and log it as the TTS decision.
+
 ## 4. Extra entry points
 
 OpenMontage ships slash-command recipes in `$OM_DIR/.claude/commands/`: `ink-art` (self-drawing ink doodle animation), `animated-drawing` (animate a supplied drawing), `reel`, `backlot` (live storyboard board: `python -m backlot open`). Read the matching file when the user asks for that kind of output.
